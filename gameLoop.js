@@ -191,7 +191,7 @@ function chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, pla
     }
     lastStateAction = currentState+",0";
   }
-  epsilon = epsilon/1.00001;
+  epsilon = epsilon/1.0001;
 }
 
 function updateAdvancedAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player){
