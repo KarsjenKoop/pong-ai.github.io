@@ -107,18 +107,16 @@ function mainLoop(){
   document.getElementById('epsilon').innerHTML = "epsilon:"+epsilon;
   document.getElementById('lastState').innerHTML = "lastStateAction:"+lastStateAction;
   document.getElementById('storageLength').innerHTML = "storageLength:"+localStorage.length;
-  if(timeStep==1){
-    var data = "";
-    for(var i=0;i<localStorage.length;i++){
-      data = data + localStorage.key(i)+":"+ localStorage.getItem(localStorage.key(i))+"<br>";
-    }
-    document.getElementById('stored').innerHTML = data;
-    data = "Iteration averages:<br>";
-    for(var i=0;i<previous10AverageTimeSteps.length;i++){
-      data = data + previous10AverageTimeSteps[i]+"<br>";
-    }
-    document.getElementById('iterationAverage').innerHTML = data;
+  var data = "";
+  for(var i=0;i<localStorage.length;i++){
+    data = data + localStorage.key(i)+":"+ localStorage.getItem(localStorage.key(i))+"<br>";
   }
+  document.getElementById('stored').innerHTML = data;
+  data = "Iteration averages:<br>";
+  for(var i=0;i<previous10AverageTimeSteps.length;i++){
+    data = data + previous10AverageTimeSteps[i]+"<br>";
+  }
+  document.getElementById('iterationAverage').innerHTML = data;
 }
 function addKey(e){
   if(e.key == "ArrowDown"){
@@ -199,7 +197,7 @@ function chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, pla
 function updateAdvancedAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player){
   //Here could be your AI
   //To moveUp set player.moveUp = true and to move down set player.moveDown = true
-  var currentState = /*Math.round(ballX)+","+Math.round(ballY)+","+ownY;*/Math.round(ballY)-ownY;
+  var currentState = /*Math.round(ballX)+","+Math.round(ballY)+","+ownY;*/Math.round(ballY)-ownY<-playerHeight/2?-1:Math.round(ballY)-ownY>playerHeight/2?1:0;
   var qValueUp = Number(localStorage.getItem(currentState+",1"));
   var qValueNothing = Number(localStorage.getItem(currentState+",0"));
   var qValueDown = Number(localStorage.getItem(currentState+",-1"));
@@ -216,7 +214,7 @@ function updateAdvancedAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeSt
     var qValue = Number(localStorage.getItem(lastStateAction));
     reward = ball.x >= width-2*playerWidth-ball.size && ball.x <= width-playerWidth-ball.size && ball.y<=player2.y+playerHeight && ball.y+ball.size>=player2.y?1+qValue:qValue;
     reward = enemyScore>0?-0.1+qValue:reward;
-    qValue = qValue + 1*(reward + 0.1 * maxQValue(qValueUp, qValueNothing, qValueDown) - qValue);
+    qValue = qValue + 1*(reward + 0 * maxQValue(qValueUp, qValueNothing, qValueDown) - qValue);
     localStorage.setItem(lastStateAction, Math.round(qValue*1000.0)/1000.0);
   }
   if(enemyScore>0){
