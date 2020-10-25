@@ -21,7 +21,7 @@
         <script src="playfield.js"></script>
         <script>
             var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.0001, 1, 1.000001, false, 2.5);
-            setInterval(mainLoop, 12, playfield, 0, 1);
+            setInterval(mainLoop, 12, playfield, 2, 2);
             document.addEventListener("keydown", addKey);
             document.addEventListener("keyup", removeKey);
         </script>
