@@ -10,28 +10,67 @@
     <nav>
       <div class='container'>
         <ul class='menu-main'>
-          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li>
-          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li>
-          <li><a href='/pong-ai.github.io/play-yourself.html'>Play Yourself</a></li>
+          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li> 
+          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li> 
+          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li> 
         </ul>
       </div>
     </nav>
     <div class='spacer'></div>
-    <div class='homepageTitle'>Lorem Ipsum</div>
+    <div class='text-center page-title'>Epsilon</div>
+    <div id='main-text' class='col-md-8 docs-content'>
+      <h2 class='title'>Title</h2>
+      <p class='text'>
+        The faster epsilon decreases the faster it will stop taking random actions and will follow its data. You could say that if we were to decrease the epsilon value faster the AI would be done training faster. But if epsilon decreases faster it will stop exploring new options sooner. This means that it will stop improving the qValues of the dataset sooner, which will lead to a dataset that is not finished or not very accurate. 
+      </p>
+      <p class='text'>
+        <br>So, we can say the slower Epsilon decreases the more accurate our data is. And we can say also say that the faster Epsilon decreases the faster the AI is done learning. For a very simple game such as pong how fast can we decrease the epsilon and still end up with an AI that functions well. 
+      </p>
+      <p class='text'>
+        <br>So, let's test what different epsilon values have for effect on the Simple Learning AI. 
+      </p>
+      <p class='text'>
+        We will test for 4 different cases:
+      </p>
+      <ol class='list-1'>
+        <li>Epsilon starts at 1 and is divided by 1.001 every update. </li>
+        <li>Epsilon starts at 1 and is divided by 1.01 every update. </li>
+        <li>Epsilon starts at 1 and is divided by 1.1 every update. </li>
+        <li>Epsilon starts at 0 and stays there. </li>
+      </ol>
+      <p class='text'>
+        <br>The 4 simulations are shown below if you want to restart them you can reload the page. 
+      </p>
+    </div>
     <div class='pong'>
+        <div id='main-text' class='col-md-8 docs-content'>
+        <h2 class='title'>Simulation 1</h2>
+        </div>
         <canvas class='playfield' id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas> <br>
+        <div id='main-text' class='col-md-8 docs-content'>
+          <h2 class='title'>Simulation 2</h2>
+        </div>
         <canvas class='playfield' id="playfield2" width="750" height="500" style="border:1px solid #000000;"></canvas> <br>
-        <canvas class='playfield' id="playfield3" width="750" height="500" style="border:1px solid #000000;"></canvas>
+        <div id='main-text' class='col-md-8 docs-content'>
+          <h2 class='title'>Simulation 3</h2>
+        </div>
+        <canvas class='playfield' id="playfield3" width="750" height="500" style="border:1px solid #000000;"></canvas> <br>
+        <div id='main-text' class='col-md-8 docs-content'>
+          <h2 class='title'>Simulation 4</h2>
+        </div>
+        <canvas class='playfield' id="playfield4" width="750" height="500" style="border:1px solid #000000;"></canvas> 
         
         <script src="playfield.js"></script>
         <script>
             localStorage.clear();
-            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.00001, 1, 1.000001, false, 2.5);
-            setInterval(mainLoop, 5, playfield, 0, 2);
-            var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.0001, 1, 1.000001, false, 2.5);
-            setInterval(mainLoop, 5, playfield2, 0, 2);
-            var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.001, 1, 1.000001, false, 2.5);
-            setInterval(mainLoop, 5, playfield3, 0, 2);
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.00001, 1, 1.001, false, 2.5);
+            setInterval(mainLoop, 0, playfield, 0, 2);
+            var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 2.5);
+            setInterval(mainLoop, 0, playfield2, 0, 2);
+            var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 2.5);
+            setInterval(mainLoop, 0, playfield3, 0, 2);
+            var playfield4 = new Playfield(document.getElementById('playfield4'), document.getElementById('playfield4').getContext("2d"), 1, 1.00001, 0, 1, false, 2.5);
+            setInterval(mainLoop, 0, playfield4, 0, 2);
         </script>
 
 
@@ -40,12 +79,7 @@
     <div id='spacer1'></div>
     <div id='main-text' class='col-md-8 docs-content'>
         <h2 class='title'>Title</h2>
-        <p class='text'>
-          The faster epsilon decreases the faster it will stop taking random actions and will follow its data. You could say that if we were to decrease the epsilon value faster the AI would be done training faster. But if epsilon decreases faster it will stop exploring new options sooner. This means that it will stop improving the qValues of the dataset sooner, which will lead to a dataset that is not finished or not very accurate. 
-        </p>
-        <p class='text'>
-          <br>So, we can say the slower Epsilon decreases the more accurate our data is. And we can say also say that the faster Epsilon decreases the faster the AI is done learning. For a very simple game such as pong how fast can we decrease the epsilon and still end up with an AI that functions well. 
-        </p>
+
         <p class='text'>
           
         </p>
