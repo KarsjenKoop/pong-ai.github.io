@@ -25,21 +25,21 @@
         </p>
       <div class='pong'>
         <script src="playfield.js"></script>
-        <canvas class='text-playfield' id="playfield2" width="525" height="350" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield3" width="525" height="350" style="border:1px solid #000000;"></canvas>
+        <canvas class='text-playfield' id="playfield2" width="450" height="300" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield3" width="450" height="300" style="border:1px solid #000000;"></canvas>
         <script>
           localStorage.clear();
-          var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 1.75);
+          var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 1.5);
           setInterval(mainLoop, 5, playfield2, 0, 0);
-          var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 1.75);
+          var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 1.5);
           setInterval(mainLoop, 5, playfield3, 1, 1);
         </script>
 
-        <br><canvas class='text-playfield' id="playfield4" width="525" height="350" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield5" width="525" height="350" style="border:1px solid #000000;"></canvas>
+        <br><canvas class='text-playfield' id="playfield4" width="450" height="300" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield5" width="450" height="300" style="border:1px solid #000000;"></canvas>
         <script>
           localStorage.clear();
-          var playfield4 = new Playfield(document.getElementById('playfield4'), document.getElementById('playfield4').getContext("2d"), 1, 1.001, 1, 1.001, false, 1.75);
+          var playfield4 = new Playfield(document.getElementById('playfield4'), document.getElementById('playfield4').getContext("2d"), 1, 1.001, 1, 1.001, false, 1.5);
           setInterval(mainLoop, 5, playfield4, 2, 2);
-          var playfield5 = new Playfield(document.getElementById('playfield5'), document.getElementById('playfield5').getContext("2d"), 1, 1.001, 1, 1.001, false, 1.75);
+          var playfield5 = new Playfield(document.getElementById('playfield5'), document.getElementById('playfield5').getContext("2d"), 1, 1.001, 1, 1.001, false, 1.5);
           setInterval(mainLoop, 5, playfield5, 3, 3);
         </script>
       </div>

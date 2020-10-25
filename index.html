@@ -77,12 +77,12 @@
         <br>We then went on to defining the states of the game, this proved to be quite tricky, as the intuition might be to take the x and y coordinate of the ball and the y position of the player as the current player, but that will lead to approximately 12 million different states for a playfield of the size 200x300, which isn’t very viable to train in a reasonable amount of time. So, what can be done in order to reduce the amount of states? We decided instead of storing both the y-Position of the ball and the y-Position of the player it is better if we just store the difference between the y-Position and that helps reduce the amount of states we will have to approximately 12,000 states, which is a major improvement, but that is still a lot of states so we decided to instead of using the exact values of the positions, we would round that to the nearest ten. This finally reduced the states to approximately 1,200 states for which we trained one AI. 
       </p>
       <br>
-      <canvas class='text-playfield' id="playfield2" width="525" height="350" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield3" width="525" height="350" style="border:1px solid #000000;"></canvas>
+      <canvas class='text-playfield' id="playfield2" width="450" height="300" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield3" width="450" height="300" style="border:1px solid #000000;"></canvas>
       <script>
         localStorage.clear();
-        var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 1.75);
+        var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 1.5);
         setInterval(mainLoop, 5, playfield2, 0, 3);
-        var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 1.75);
+        var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 1.5);
         setInterval(mainLoop, 5, playfield3, 0, 1);
       </script>
 
