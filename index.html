@@ -20,8 +20,8 @@
         <canvas id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas>
         <script src="playfield.js"></script>
         <script>
-            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1, false, 2.5);
-            setInterval(mainLoop, 5, playfield, 1, 2);
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.0001, 1, 1.000001, true, 2.5);
+            setInterval(mainLoop, 12, playfield, -1, 1);
             document.addEventListener("keydown", addKey);
             document.addEventListener("keyup", removeKey);
         </script>

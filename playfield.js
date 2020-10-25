@@ -1,6 +1,6 @@
 var instances = [];
 class Playfield {
-    constructor(c, ctx, simpleEpsilon, advancedEpsilon, hasHumanPlayer, uiSize){
+    constructor(c, ctx, simpleEpsilon, simpleEpsilonDecrease, complexEpsilon, complexEpsilonDecrease, hasHumanPlayer, uiSize){
         this.c = c;
         this.ctx = ctx;
         this.width = c.width/uiSize;
@@ -13,7 +13,9 @@ class Playfield {
         this.lastSimpleEnemyScore = 0;
         this.playerHeight = 40;
         this.simpleEpsilon = simpleEpsilon;
-        this.advancedEpsilon = advancedEpsilon;
+        this.complexEpsilon = complexEpsilon;
+        this.simpleEpsilonDecrease = simpleEpsilonDecrease;
+        this.complexEpsilonDecrease = complexEpsilonDecrease;
         this.simpleAIWeights = {
             "-1,0":3.2,
             "0,-1":130.8,
@@ -117,10 +119,37 @@ function updateBall(instance){
     }
   }
 
+  function writeName(instance, type, x, y){
+    switch(type){
+        case 0:
+            instance.ctx.fillText("Basic AI", x-4*instance.uiSize*8, y);
+            break;
+        case 1:
+            instance.ctx.fillText("Simple AI", x-4*instance.uiSize*9, y);
+            break;
+        case 2:
+            instance.ctx.fillText("Simple L. AI", x-4*instance.uiSize*12, y);
+            break;
+        case 3:
+            instance.ctx.fillText("Complex AI", x-4*instance.uiSize*10, y);
+            break;
+        default:
+            instance.ctx.fillText("Player", x-4*instance.uiSize*6, y);
+            break;
+    }
+}
+
+  function writeNames(instance, type1, type2){
+      instance.ctx.font = (10*instance.uiSize)+"px Arial Black";
+      writeName(instance, type1, instance.width/4*instance.uiSize, 10*instance.uiSize);
+      writeName(instance, type2, 3.25*instance.width/4*instance.uiSize, 10*instance.uiSize);
+  }
+
  function mainLoop(instance, type1, type2){
      instance.ctx.fillStyle = "black";
      instance.ctx.fillRect(0,0,instance.width*instance.uiSize,instance.height*instance.uiSize);
      instance.ctx.fillStyle = "white";
+     writeNames(instance, type1, type2);
      instance.ctx.font = (20*instance.uiSize)+"px Arial Black";
      var digits = Math.log(instance.player1.score) * Math.LOG10E + 1 | 1;
      instance.ctx.fillText(instance.player1.score+":"+instance.player2.score, instance.width*instance.uiSize/2-8*instance.uiSize-7*digits*instance.uiSize, 25*instance.uiSize);
@@ -162,7 +191,6 @@ function updateBall(instance){
       }
       instance.lastStateAction = currentState+",0";
     }
-    epsilon = epsilon/1.0001;
   }
 
   function chooseNextStaticAction(currentState, qValueUp, qValueNothing, qValueDown, player){
@@ -218,6 +246,7 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       return;
     }*/
     chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.simpleEpsilon, instance);
+    instance.simpleEpsilon = instance.simpleEpsilon/instance.simpleEpsilonDecrease;
   }
 
  function updateComplexAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance){
@@ -248,7 +277,8 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       qValue = qValue + 0.7*(reward + 1 * Math.max(qValueUp, qValueNothing, qValueDown) - qValue);
       localStorage.setItem(instance.lastStateAction, qValue);
     }
-    chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.simpleEpsilon, instance);
+    chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.complexEpsilon, instance);
+    instance.complexEpsilon = instance.complexEpsilon/instance.complexEpsilonDecrease;
   }
 
  function updateBasicAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player){
