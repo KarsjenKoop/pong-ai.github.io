@@ -1,13 +1,16 @@
 var instances = [];
 class Playfield {
-    constructor(c, ctx, simpleEpsilon, advancedEpsilon, hasHumanPlayer){
+    constructor(c, ctx, simpleEpsilon, advancedEpsilon, hasHumanPlayer, uiSize){
         this.c = c;
         this.ctx = ctx;
-        this.width = c.width;
-        this.height = c.height;
+        this.width = c.width/uiSize;
+        this.height = c.height/uiSize;
         this.playerWidth = 5;
         this.timeStep = 0;
         this.hasHumanPlayer = hasHumanPlayer;
+        this.uiSize = uiSize;
+        this.lastComplexEnemyScore = 0;
+        this.lastSimpleEnemyScore = 0;
         this.playerHeight = 40;
         this.simpleEpsilon = simpleEpsilon;
         this.advancedEpsilon = advancedEpsilon;
@@ -116,14 +119,14 @@ function updateBall(instance){
 
  function mainLoop(instance, type1, type2){
      instance.ctx.fillStyle = "black";
-     instance.ctx.fillRect(0,0,instance.width,instance.height);
+     instance.ctx.fillRect(0,0,instance.width*instance.uiSize,instance.height*instance.uiSize);
      instance.ctx.fillStyle = "white";
-     instance.ctx.font = "20px Arial Black";
+     instance.ctx.font = (20*instance.uiSize)+"px Arial Black";
      var digits = Math.log(instance.player1.score) * Math.LOG10E + 1 | 1;
-     instance.ctx.fillText(instance.player1.score+":"+instance.player2.score, instance.width/2-8-7*digits, 25);
-     instance.ctx.fillRect(instance.player1.x, instance.player1.y, instance.playerWidth, instance.playerHeight);
-     instance.ctx.fillRect(instance.player2.x, instance.player2.y, instance.playerWidth, instance.playerHeight);
-     instance.ctx.fillRect(instance.ball.x, instance.ball.y, instance.ball.size, instance.ball.size);
+     instance.ctx.fillText(instance.player1.score+":"+instance.player2.score, instance.width*instance.uiSize/2-8*instance.uiSize-7*digits*instance.uiSize, 25*instance.uiSize);
+     instance.ctx.fillRect(instance.player1.x*instance.uiSize, instance.player1.y*instance.uiSize, instance.playerWidth*instance.uiSize, instance.playerHeight*instance.uiSize);
+     instance.ctx.fillRect(instance.player2.x*instance.uiSize, instance.player2.y*instance.uiSize, instance.playerWidth*instance.uiSize, instance.playerHeight*instance.uiSize);
+     instance.ctx.fillRect(instance.ball.x*instance.uiSize, instance.ball.y*instance.uiSize, instance.ball.size*instance.uiSize, instance.ball.size*instance.uiSize);
      updateBall(instance);
      updatePlayer(instance.player1, instance);
      updatePlayer(instance.player2, instance);
@@ -200,7 +203,10 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       }else{
         reward = instance.ball.x >= instance.width-2*instance.playerWidth-instance.ball.size && instance.ball.x <= instance.width-instance.playerWidth-instance.ball.size && instance.ball.y<=player.y+instance.playerHeight && instance.ball.y+instance.ball.size>=player.y?qValue+1:qValue;
       }
-      reward = enemyScore>0?-0.1+qValue:reward;
+      reward = enemyScore>instance.lastSimpleEnemyScore?-0.1+qValue:reward;
+      if(enemyScore>instance.lastSimpleEnemyScore){
+        instance.lastSimpleEnemyScore = enemyScore;
+      }
       qValue = qValue + 1*(reward + 0 * Math.max(qValueUp, qValueNothing, qValueDown) - qValue);
       localStorage.setItem(instance.lastStateAction, Math.round(qValue*1000.0)/1000.0);
     }
@@ -235,7 +241,10 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       }else{
         reward = instance.ball.x >= instance.width-2*instance.playerWidth-instance.ball.size && instance.ball.x <= instance.width-instance.playerWidth-instance.ball.size && instance.ball.y<=player.y+instance.playerHeight && instance.ball.y+instance.ball.size>=player.y?10:0;
       }
-      reward = enemyScore>0?-100000:reward;
+      reward = enemyScore>instance.lastComplexEnemyScore?-100000:reward;
+      if(enemyScore>instance.lastComplexEnemyScore){
+        instance.lastComplexEnemyScore = enemyScore;
+      }
       qValue = qValue + 0.7*(reward + 1 * Math.max(qValueUp, qValueNothing, qValueDown) - qValue);
       localStorage.setItem(instance.lastStateAction, qValue);
     }

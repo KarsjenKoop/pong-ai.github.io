@@ -18,14 +18,11 @@
     <div class='homepageTitle'>Lorem Ipsum</div>
     <div class='pong'>
       <h1>How to create an AI for Pong.</h1>
-        <canvas id="playfield" width="300" height="200" style="border:1px solid #000000;"></canvas>
-        <canvas id="playfield2" width="300" height="200" style="border:1px solid #000000;"></canvas>
+        <canvas id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas>
         <script src="playfield.js"></script>
         <script>
-            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1, true);
-            setInterval(mainLoop, 10, playfield, -1, 0);
-            var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1, false);
-            setInterval(mainLoop, 4, playfield2, 0, 2);
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1, false, 2.5);
+            setInterval(mainLoop, 5, playfield, 1, 2);
             document.addEventListener("keydown", addKey);
             document.addEventListener("keyup", removeKey);
         </script>
