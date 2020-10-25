@@ -213,7 +213,7 @@ function updateBall(instance){
   
  function updateSimpleLearningAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance, lastStateAction){
     var currentState = instance.player1 == player?instance.name+"s1":instance.name+"s2";
-    currentState += Math.round(ballY)-ownY<2-instance.playerHeight/2?-1:Math.round(ballY)-ownY>instance.playerHeight/2-2?1:0;
+    currentState += Math.round(ballY)-ownY<-instance.playerHeight/2?-1:Math.round(ballY)-ownY>instance.playerHeight/2?1:0;
     var qValueUp = Number(localStorage.getItem(currentState+",1"));
     var qValueNothing = Number(localStorage.getItem(currentState+",0"));
     var qValueDown = Number(localStorage.getItem(currentState+",-1"));
