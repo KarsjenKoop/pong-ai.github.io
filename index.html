@@ -10,14 +10,13 @@
     <nav>
       <div class='container'>
         <ul class='menu-main'>
-          <li><a href='/pong/test/homepage.html'>PONG</a></li>
+          <li><a href='/pong/test/index.html'>PONG</a></li>
         </ul>
       </div>
     </nav>
     <div class='spacer'></div>
     <div class='homepageTitle'>Lorem Ipsum</div>
     <div class='pong'>
-      <h1>How to create an AI for Pong.</h1>
         <canvas id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas>
         <script src="playfield.js"></script>
         <script>
@@ -27,5 +26,21 @@
             document.addEventListener("keyup", removeKey);
         </script>
     </div>
+    <div id='spacer1'></div>
+    <div class='main-text'>
+      <p class='text-sm-left'>
+        We are looking to train an AI to train pong to do this there are three options for AI learning, supervised learning, unsupervised learning and reinforcement learning. We will use reinforcement learning to train our AI because it is the best option. If we were to use supervised learning, we would have to make a big dataset which includes the inputs and the correct output, making this dataset would be a lot of work and be difficult and just not efficient for our time. And we don’t use unsupervised learning because we can’t give it feedback on what it does, so it is hard to improve its ability to play pong.
+      </p>
+      <p class='text-sm-left'>
+        <br>So, we looked into reinforcement learning algorithms and settled on Q-learning. Q-learning works by looking at the current state of the game and choosing what action it should take. The state of the game consists of parameters, we can choose what parameters we want to include in the game-state. For example, we can exclude some of the game's parameters form the current game state. Then we define what actions the AI can take. Then we take every state-action combination and assign a qValue to that state-action pair. The AI will choose what action to take based on the qValues of the possible actions for that game-state. The ai will choose the action that has the highest qValue. After it has chosen that action it will update the qValue of that action according to what reward that action got. The Formula for updating the qValue is: 
+      </p>
+      <p class='text-sm-left'>
+        <br>Q(s, a) = Q(s, a) + α(r + γ*max(Q(s’, a’)) -Q(s, a))
+      </p>
+      <p class='text-sm-left'>
+        <br>If during the training of the ai we would always go for the action with the highest qValue we would not get data for all the possible action and would only update the qValue of the action that has the highest value. We can fix this by making the decisions of the ai random. We do this by introducing a variable called epsilon, this variable will dictate how likely the ai is to pick a random action instead of the action with the highest qValue.  
+      </p>
+    </div>
+    <div class='footer'></div>
   </body>
 </html>

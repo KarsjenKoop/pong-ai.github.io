@@ -157,3 +157,14 @@ input, select {
   margin-left: auto;
   margin-right: auto;
 }
+#spacer1{
+  height: 50px;
+  width: 100%;
+}
+.main-text{
+  margin-left: 300px;
+  width: 600px;
+}
+.footer{
+  height: 100px;
+}
