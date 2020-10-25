@@ -122,7 +122,7 @@ function updateBall(instance){
   function writeName(instance, type, x, y){
     switch(type){
         case 0:
-            instance.ctx.fillText("Basic AI", x-4*instance.uiSize*8, y);
+            instance.ctx.fillText("Hard Code", x-4*instance.uiSize*9, y);
             break;
         case 1:
             instance.ctx.fillText("Simple AI", x-4*instance.uiSize*9, y);

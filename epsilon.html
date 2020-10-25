@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8"/>
+    <title>PONG</title>
+    <link rel='stylesheet' href='bootstrap.css'>
+    <link rel='stylesheet' href='style.css'>
+  </head>
+  <body>
+    <nav>
+      <div class='container'>
+        <ul class='menu-main'>
+          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li>
+          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class='spacer'></div>
+    <div class='homepageTitle'>Lorem Ipsum</div>
+    <div class='pong'>
+        <canvas class='playfield' id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas> <br>
+        <canvas class='playfield' id="playfield2" width="750" height="500" style="border:1px solid #000000;"></canvas> <br>
+        <canvas class='playfield' id="playfield3" width="750" height="500" style="border:1px solid #000000;"></canvas>
+        
+        <script src="playfield.js"></script>
+        <script>
+            localStorage.clear();
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.00001, 1, 1.000001, false, 2.5);
+            setInterval(mainLoop, 5, playfield, 0, 2);
+            var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.0001, 1, 1.000001, false, 2.5);
+            setInterval(mainLoop, 5, playfield2, 0, 2);
+            var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.001, 1, 1.000001, false, 2.5);
+            setInterval(mainLoop, 5, playfield3, 0, 2);
+        </script>
+
+
+
+    </div>
+    <div id='spacer1'></div>
+    <div id='main-text' class='col-md-8 docs-content'>
+        
+    </div>
+    <div class='footer'></div>
+  </body>
+</html>

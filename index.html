@@ -10,18 +10,20 @@
     <nav>
       <div class='container'>
         <ul class='menu-main'>
-          <li><a href='/pong/test/index.html'>PONG</a></li>
+          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li>
+          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li>
         </ul>
       </div>
     </nav>
     <div class='spacer'></div>
     <div class='homepageTitle'>Lorem Ipsum</div>
     <div class='pong'>
-        <canvas id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas>
+        <canvas class='playfield' id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas>
         <script src="playfield.js"></script>
         <script>
+            localStorage.clear();
             var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.0001, 1, 1.000001, false, 2.5);
-            setInterval(mainLoop, 12, playfield, 2, 2);
+            setInterval(mainLoop, 5, playfield, 0, 2);
             document.addEventListener("keydown", addKey);
             document.addEventListener("keyup", removeKey);
         </script>
@@ -41,7 +43,28 @@
         <br>Q(s, a) = Q(s, a) + α(r + γ*max(Q(s’, a’)) -Q(s, a))
       </p>
       <p class='text'>
-        <br>If during the training of the ai we would always go for the action with the highest qValue we would not get data for all the possible action and would only update the qValue of the action that has the highest value. We can fix this by making the decisions of the ai random. We do this by introducing a variable called epsilon, this variable will dictate how likely the ai is to pick a random action instead of the action with the highest qValue.  
+        <br>Q(s, a) is the current qValue of the state-action combination 
+      </p>
+      <p class='text'>
+        <br>α is the learning rate 
+      </p>
+      <p class='text'>
+        <br>r is the reward gets for the action the agent has taken 
+      </p>
+      <p class='text'>
+        <br>γ is how much the agent values future rewards 
+      </p>
+      <p class='text'>
+        <br>max(Q(s’, a’)) is the next state with the highest possible qValue for that state 
+      </p>
+      <p class='text'>
+        <br>If during the training of the AI, we would always go for the action with the highest qValue we would not get data for all the possible action and would only update the qValue of the action that has the highest value. We can fix this by making the decisions of the ai random. We do this by introducing a variable called epsilon, this variable will dictate how likely the ai is to pick a random action instead of the action with the highest qValue.  
+      </p>
+      <p class='text'>
+        <br>Now, that everybody understands how Q-learning works we can focus on how we used Q-learning to create an AI that can play Pong. The first consideration is what are the possible actions the AI can take in each state, we choose three different actions, going up, going down or doing nothing. 
+      </p>
+      <p class='text'>
+        <br>We then went on to defining the states of the game, this proved to be quite tricky, as the intuition might be to take the x and y coordinate of the ball and the y position of the player as the current player, but that will lead to approximately 12 million different states for a playfield of the size 200x300, which isn’t very viable to train in a reasonable amount of time. So, what can be done in order to reduce the amount of states? We decided instead of storing both the y-Position of the ball and the y-Position of the player it is better if we just store the difference between the y-Position and that helps reduce the amount of states we will have to approximately 12,000 states, which is a major improvement, but that is still a lot of states so we decided to instead of using the exact values of the positions, we would round that to the nearest ten. This finally reduced the states to approximately 1,200 states for which we trained one AI. The reward for the AI is -1000 if the enemy scores a point, 0.001 if it survives this timestep and 100 points if the agent manages to deflect the ball. 
       </p>
     </div>
     <div class='footer'></div>

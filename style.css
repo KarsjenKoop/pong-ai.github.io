@@ -152,7 +152,7 @@ input, select {
   margin-right: auto;
   margin-left: auto;
 }
-#playfield{
+.playfield{
   display: block;
   margin-left: auto;
   margin-right: auto;
