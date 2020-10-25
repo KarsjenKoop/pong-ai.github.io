@@ -10,9 +10,9 @@
     <nav>
       <div class='container'>
         <ul class='menu-main'>
-          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li> 
-          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li> 
-          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li> 
+          <li><a href='/pong/test/index.html'>PONG</a></li>
+          <li><a href='/pong/test/epsilon.html'>Epsilon</a></li>
+          <li><a href='/pong/test/play-yourself.html'>Play it Yourself</a></li>
         </ul>
       </div>
     </nav>
@@ -32,11 +32,14 @@
     <div id='spacer1'></div>
     <div id='main-text' class='col-md-8 docs-content'>
       <h2 class='title'>
-        Title
+        Intro
       </h2>
       <p class='text'>
         We are looking to train an AI to train pong to do this there are three options for AI learning, supervised learning, unsupervised learning and reinforcement learning. We will use reinforcement learning to train our AI because it is the best option. If we were to use supervised learning, we would have to make a big dataset which includes the inputs and the correct output, making this dataset would be a lot of work and be difficult and just not efficient for our time. And we don’t use unsupervised learning because we can’t give it feedback on what it does, so it is hard to improve its ability to play pong.
       </p>
+      <h2 class='title'>
+        Q-learning
+      </h2>
       <p class='text'>
         <br>So, we looked into reinforcement learning algorithms and settled on Q-learning. Q-learning works by looking at the current state of the game and choosing what action it should take. The state of the game consists of parameters, we can choose what parameters we want to include in the game-state. For example, we can exclude some of the game's parameters form the current game state. Then we define what actions the AI can take. Then we take every state-action combination and assign a qValue to that state-action pair. The AI will choose what action to take based on the qValues of the possible actions for that game-state. The ai will choose the action that has the highest qValue. After it has chosen that action it will update the qValue of that action according to what reward that action got. The Formula for updating the qValue is: 
       </p>
@@ -61,12 +64,28 @@
       <p class='text'>
         <br>If during the training of the AI, we would always go for the action with the highest qValue we would not get data for all the possible action and would only update the qValue of the action that has the highest value. We can fix this by making the decisions of the ai random. We do this by introducing a variable called epsilon, this variable will dictate how likely the ai is to pick a random action instead of the action with the highest qValue.  
       </p>
+      <h2 class='title'>
+        Creating Our Own AI's
+      </h2>
       <p class='text'>
         <br>Now, that everybody understands how Q-learning works we can focus on how we used Q-learning to create an AI that can play Pong. The first consideration is what are the possible actions the AI can take in each state, we choose three different actions, going up, going down or doing nothing. 
       </p>
       <p class='text'>
         <br>We then went on to defining the states of the game, this proved to be quite tricky, as the intuition might be to take the x and y coordinate of the ball and the y position of the player as the current player, but that will lead to approximately 12 million different states for a playfield of the size 200x300, which isn’t very viable to train in a reasonable amount of time. So, what can be done in order to reduce the amount of states? We decided instead of storing both the y-Position of the ball and the y-Position of the player it is better if we just store the difference between the y-Position and that helps reduce the amount of states we will have to approximately 12,000 states, which is a major improvement, but that is still a lot of states so we decided to instead of using the exact values of the positions, we would round that to the nearest ten. This finally reduced the states to approximately 1,200 states for which we trained one AI. The reward for the AI is -1000 if the enemy scores a point, 0.001 if it survives this timestep and 100 points if the agent manages to deflect the ball. 
       </p>
+      <h2 class='title'>
+        Reward
+      </h2>
+      <p class='text'>
+        <br>The simple AI gets one point if it hits the ball and –0.1 points if it let the ball through. It gets no reward for scoring a point, because the actions at the time the point was scored didn’t contribute to the agent scoring the point. This means this agent is rewarded for defending its side and not on how good it can score points. This means that it can perform on the same level and is not dependent on its opponent to be able to accurately train it. 
+      </p>
+      <p class='text'>
+        <br>The complex AI gets ten points for hitting the ball and –100000 points for letting the ball through. We decided to use more extreme values for the rewards, as the state space is larger and therefore higher values can better propagate through the system, as higher values lead to a more distinct learning with fewer repetitions. 
+      </p>
+      <p class='text'>
+        <br>
+      </p>
+
     </div>
     <div class='footer'></div>
   </body>
