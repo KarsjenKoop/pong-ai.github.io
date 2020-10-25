@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8"/>
+    <title>PONG</title>
+    <link rel='stylesheet' href='bootstrap.css'>
+    <link rel='stylesheet' href='style.css'>
+  </head>
+  <body>
+    <nav>
+      <div class='container'>
+        <ul class='menu-main'>
+          <li><a href='/pong/test/index.html'>PONG</a></li>
+          <li><a href='/pong/test/epsilon.html'>Epsilon</a></li>
+          <li><a href='/pong/test/play-yourself.html'>Play Yourself</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class='spacer'></div>
+    <div class='homepageTitle'>Lorem Ipsum</div>
+    <div class='pong'>
+        <canvas class='playfield' id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas> <br>
+        
+        <script src="playfield.js"></script>
+        <script>
+            localStorage.clear();
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.00001, 1, 1.000001, true, 2.5);
+            setInterval(mainLoop, 12, playfield, -1, 1);
+            document.addEventListener("keydown", addKey);
+            document.addEventListener("keyup", removeKey);
+        </script>
+
+    </div>
+    <div id='spacer1'></div>
+    <div id='main-text' class='col-md-8 docs-content'>
+        
+    </div>
+    <div class='footer'></div>
+  </body>
+</html>
