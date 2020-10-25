@@ -161,11 +161,23 @@ input, select {
   height: 50px;
   width: 100%;
 }
-.main-text{
+#main-text{
   margin-left: auto;
   margin-right: auto;
-  width: 600px;
+  width: 60%;
 }
 .footer{
   height: 100px;
+}
+.text{
+  font-size: 20px;
+  margin-top: 15p;
+}
+.title, h2{
+  font-weight: 300!important;
+  font-style: normal!important;
+  font-size: 28px!important;
+  padding-top: 50px;
+  padding-bottom: 5px;
+  color: #719e40;
 }
