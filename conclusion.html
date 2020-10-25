@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8"/>
+    <title>PONG</title>
+    <link rel='stylesheet' href='bootstrap.css'>
+    <link rel='stylesheet' href='style.css'>
+  </head>
+  <body>
+    <nav>
+      <div class='container'>
+        <ul class='menu-main'>
+          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li>
+          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li>
+          <li><a href='/pong-ai.github.io/conclusion.html'>Conclusion</a></li>
+          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class='spacer'></div>
+    <div id='main-text' class='col-md-8 docs-content'>
+        <h2 class='title'>Conclusion</h2>
+        <p class='text'>
+            <br>All in all the project of creating our own AIs was a partial success, while we have succeeded to create a simple AI using Q-learning, the more complex AI is performing considerably worse than the simple AI and even the simple AI is slightly worse than the hardcoded opponent. This goes a long way to show that a complex AI doesn’t necessarily create a better AI, especially in cases where the scope of the problem is narrow. But it is still a valuable learning experience, because even though the complex AI was performing worse it was getting a bit better and maybe with more time the complex AI could perform at the same level as the simple AI or even surpass the simple and hardcoded AI.  
+        </p>
+      <div class='pong'>
+        <script src="playfield.js"></script>
+        <canvas class='text-playfield' id="playfield2" width="525" height="350" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield3" width="525" height="350" style="border:1px solid #000000;"></canvas>
+        <script>
+          localStorage.clear();
+          var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 1.75);
+          setInterval(mainLoop, 5, playfield2, 0, 0);
+          var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 1.75);
+          setInterval(mainLoop, 5, playfield3, 1, 1);
+        </script>
+
+        <br><canvas class='text-playfield' id="playfield4" width="525" height="350" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield5" width="525" height="350" style="border:1px solid #000000;"></canvas>
+        <script>
+          localStorage.clear();
+          var playfield4 = new Playfield(document.getElementById('playfield4'), document.getElementById('playfield4').getContext("2d"), 1, 1.001, 1, 1.001, false, 1.75);
+          setInterval(mainLoop, 5, playfield4, 2, 2);
+          var playfield5 = new Playfield(document.getElementById('playfield5'), document.getElementById('playfield5').getContext("2d"), 1, 1.001, 1, 1.001, false, 1.75);
+          setInterval(mainLoop, 5, playfield5, 3, 3);
+        </script>
+      </div>
+    </div>
+    <div id='spacer1'></div>
+    <div class='footer'></div>
+  </body>
+</html>

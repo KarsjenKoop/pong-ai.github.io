@@ -10,27 +10,37 @@
     <nav>
       <div class='container'>
         <ul class='menu-main'>
-          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li> 
-          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li> 
-          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li> 
+          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li>
+          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li>
+          <li><a href='/pong-ai.github.io/conclusion.html'>Conclusion</a></li>
+          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li>
         </ul>
       </div>
     </nav>
     <div class='spacer'></div>
     <div class='text-center page-title'>Epsilon</div>
     <div id='main-text' class='col-md-8 docs-content'>
-      <h2 class='title'>Title</h2>
+      <h2 class='title'>Radom Learning</h2>
       <p class='text'>
-        The faster epsilon decreases the faster it will stop taking random actions and will follow its data. You could say that if we were to decrease the epsilon value faster the AI would be done training faster. But if epsilon decreases faster it will stop exploring new options sooner. This means that it will stop improving the qValues of the dataset sooner, which will lead to a dataset that is not finished or not very accurate. 
+        Epsilon is a variable that dictates the chance of the AI making a random action. A higher Epsilon wil result in more random actions and a lower Epsilon will result in less random actions. 
+      </p>
+      <p class='text'>
+        <br>Why do we want the AI to take random actions?
+      </p>
+      <p class='text'>
+        <br>If the AI always takes the actions that it thinks are the best it will likely find a local maximum. Meaning that its performance reaches a maximum, but it is still possible to improve if the AI would take the actions that it is currently not taking because the AI thinks those actions are worse. 
+      </p>
+      <p class='text'>
+        <br>The faster epsilon decreases the faster it will stop taking random actions and will follow its data. You could say that if we were to decrease the epsilon value faster the AI would be done training faster. But if epsilon decreases faster it will stop exploring new options sooner. This means that it will stop improving the qValues of the dataset sooner, which can lead to a local maximum as explained beforre
       </p>
       <p class='text'>
         <br>So, we can say the slower Epsilon decreases the more accurate our data is. And we can say also say that the faster Epsilon decreases the faster the AI is done learning. For a very simple game such as pong how fast can we decrease the epsilon and still end up with an AI that functions well. 
       </p>
       <p class='text'>
-        <br>So, let's test what different epsilon values have for effect on the Simple Learning AI. 
+        <br>So, let's test what different epsilon values have for effect on the Simple Learning AI.
       </p>
       <p class='text'>
-        We will test for 4 different cases:
+        <br>We will test for 4 different cases:
       </p>
       <ol class='list-1'>
         <li>Epsilon starts at 1 and is divided by 1.001 every update. </li>
@@ -78,13 +88,13 @@
     </div>
     <div id='spacer1'></div>
     <div id='main-text' class='col-md-8 docs-content'>
-        <h2 class='title'>Title</h2>
+        <h2 class='title'>Results</h2>
 
         <p class='text'>
-          
+          <br>Maybe you have seen it yourself but the simulations where the Epsilon is decreased very fast and the simulation where Epsilon is 0 are prone to getting in a local maximum. In this case the local maximum consists of getting stuck against the wall and in rare cases not doing anything at all and sitting still in the middle. If you have not seen this yet you can try refreshing the page until you see it. The simulations where the Epsilon was decreased slower where not very prone to getting stuck in a local maximum. 
         </p>
         <p class='text'>
-          
+          <br>For training AI to play pong you can get away with having a very fast decreasing Epsilon value most of the time. This is because for the simple AI there are only 3 possible game-states and only 3 possible actions. That comes out to 9 possible state-action pairs. Because the number of state-action pairs is so low you can get away with a fast decreasing epsilon value and not hit a local maximum. But for our complex ai which has 3600 state-action pairs having an epsilon that decreases that fast will result in a local maximum. 
         </p>
         <p class='text'>
           

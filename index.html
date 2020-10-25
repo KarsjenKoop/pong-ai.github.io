@@ -10,20 +10,20 @@
     <nav>
       <div class='container'>
         <ul class='menu-main'>
-          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li> 
-          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li> 
-          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li> 
+          <li><a href='/pong-ai.github.io/index.html'>PONG</a></li>
+          <li><a href='/pong-ai.github.io/epsilon.html'>Epsilon</a></li>
+          <li><a href='/pong-ai.github.io/conclusion.html'>Conclusion</a></li>
+          <li><a href='/pong-ai.github.io/play-yourself.html'>Play it Yourself</a></li>
         </ul>
       </div>
     </nav>
     <div class='spacer'></div>
-    <div class='text-center page-title'>Lorem ipsum</div>
     <div class='pong'>
         <canvas class='playfield' id="playfield" width="750" height="500" style="border:1px solid #000000;"></canvas>
         <script src="playfield.js"></script>
         <script>
             localStorage.clear();
-            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.001, 1, 1.001, false, 2.5);
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1.001, 1, 1.0005, false, 2.5);
             setInterval(mainLoop, 0, playfield, 0, 2);
             document.addEventListener("keydown", addKey);
             document.addEventListener("keyup", removeKey);
@@ -36,6 +36,9 @@
       </h2>
       <p class='text'>
         We are looking to train an AI to train pong to do this there are three options for AI learning, supervised learning, unsupervised learning and reinforcement learning. We will use reinforcement learning to train our AI because it is the best option. If we were to use supervised learning, we would have to make a big dataset which includes the inputs and the correct output, making this dataset would be a lot of work and be difficult and just not efficient for our time. And we don’t use unsupervised learning because we can’t give it feedback on what it does, so it is hard to improve its ability to play pong.
+      </p>
+      <p class='text'>
+        <br>Reinforcement learning works on the principal of having an agent taking actions in an environment which will then give a feedback to the agent. The agent learns through trying out different actions and will then be more likely to do the same action if it gets a positive feedback from the environment and the agent will be less likely to do the action, if the feedback is negative. The environment can be the real world but can also be a game or simulation like we have with Pong. Reinforcement learning is great for creating an AI for pong, because the environment can give good feedback like scoring points or the opponent scoring points.
       </p>
       <h2 class='title'>
         Q-learning
@@ -71,8 +74,20 @@
         <br>Now, that everybody understands how Q-learning works we can focus on how we used Q-learning to create an AI that can play Pong. The first consideration is what are the possible actions the AI can take in each state, we choose three different actions, going up, going down or doing nothing. 
       </p>
       <p class='text'>
-        <br>We then went on to defining the states of the game, this proved to be quite tricky, as the intuition might be to take the x and y coordinate of the ball and the y position of the player as the current player, but that will lead to approximately 12 million different states for a playfield of the size 200x300, which isn’t very viable to train in a reasonable amount of time. So, what can be done in order to reduce the amount of states? We decided instead of storing both the y-Position of the ball and the y-Position of the player it is better if we just store the difference between the y-Position and that helps reduce the amount of states we will have to approximately 12,000 states, which is a major improvement, but that is still a lot of states so we decided to instead of using the exact values of the positions, we would round that to the nearest ten. This finally reduced the states to approximately 1,200 states for which we trained one AI.
+        <br>We then went on to defining the states of the game, this proved to be quite tricky, as the intuition might be to take the x and y coordinate of the ball and the y position of the player as the current player, but that will lead to approximately 12 million different states for a playfield of the size 200x300, which isn’t very viable to train in a reasonable amount of time. So, what can be done in order to reduce the amount of states? We decided instead of storing both the y-Position of the ball and the y-Position of the player it is better if we just store the difference between the y-Position and that helps reduce the amount of states we will have to approximately 12,000 states, which is a major improvement, but that is still a lot of states so we decided to instead of using the exact values of the positions, we would round that to the nearest ten. This finally reduced the states to approximately 1,200 states for which we trained one AI. 
       </p>
+      <br>
+      <canvas class='text-playfield' id="playfield2" width="525" height="350" style="border:1px solid #000000;"></canvas> <canvas class='text-playfield' id="playfield3" width="525" height="350" style="border:1px solid #000000;"></canvas>
+      <script>
+        localStorage.clear();
+        var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1.00001, 1, 1.01, false, 1.75);
+        setInterval(mainLoop, 5, playfield2, 0, 3);
+        var playfield3 = new Playfield(document.getElementById('playfield3'), document.getElementById('playfield3').getContext("2d"), 1, 1.00001, 1, 1.1, false, 1.75);
+        setInterval(mainLoop, 5, playfield3, 0, 1);
+      </script>
+
+
+
       <h2 class='title'>
         Reward
       </h2>
@@ -83,7 +98,14 @@
         <br>The complex AI gets ten points for hitting the ball and –100000 points for letting the ball through. We decided to use more extreme values for the rewards, as the state space is larger and therefore higher values can better propagate through the system, as higher values lead to a more distinct learning with fewer repetitions. 
       </p>
       <p class='text'>
-        <br>
+        <br>If the reward is positive it will in turn increase the qValue for that stare-action pair so the AI will prefer that action in the future. This way the actions with good result will be preferred in the future and the actions with bad results won't get chosen in the future. 
+      </p>
+      <h2 class='title'>
+        Next On the list
+      </h2>
+      <p class='text'>
+        <br> Next We want to tell you about Epsilon <a href='/pong-ai.github.io/epsilon.html'>Here</a>
+        <br> The topic has a lot of simulations so we put it on a different page
       </p>
 
     </div>
