@@ -87,7 +87,7 @@ input, select {
     vertical-align:middle;
 }
 
-
+/* -------------------------------------- */
 
 .container{
   width: 100%!important;
@@ -125,10 +125,6 @@ input, select {
   color: #777;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-#login-button {
-  float:right;
-  margin-right: 50px;
-}
 #a-logo{
   padding: 0px;
 
@@ -140,35 +136,9 @@ input, select {
   height: 51px;
   width: 100%;
 }
-.footer{
-  height: 80px;
-  width: 100%;
-}
-.row{
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 100px;
-}
-.toc-title {
-  font-weight: 300!important;
-  font-style: normal!important;
-  font-size: 24px!important;
-  margin-top: 25px;
-}
-.toc-links{
-  list-style-type: none;
-}
-.toc-links a{
-  text-decoration: none;
-  display: block;
-  padding: 2px 10px;
-  font-size: 16px;
-  line-height: 24px;
-  color: #719e40;
-}
-.docs-content{
-  font-weight: 300!important;
-  font-style: normal!important;
-  font-size: 24px!important;
+
+/* ---------------------------------- */
+
+.pong{
+  padding: 20px;
 }
