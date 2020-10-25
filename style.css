@@ -91,7 +91,7 @@ input, select {
 
 .container{
   width: 100%!important;
-  height: 50px;
+  height: 87.5px;
   display: inline-block;
   background: #f8f8f8;
   border-style: solid;
@@ -103,24 +103,24 @@ input, select {
   z-index: 999;
 }
 .logo{
-  height: 50px;
+  height: 87.5px;
   display: block;
   position: relative;
   padding: 0px;
 }
 .menu-main{
   background: #f8f8f8;
-  height: 50px;
+  height: 87.5px;
 }
 .menu-main li {
-  height: 50px;
+  height: 87.5px;
   float: left;
 }
 .menu-main li a {
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 28px;
+  line-height: 35px;
   display: block;
-  padding: 15px;
+  padding: 26.25px;
   text-decoration: none;
   color: #777;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -133,11 +133,19 @@ input, select {
   color: black;
 }
 .spacer{
-  height: 51px;
+  height: 88.5px;
   width: 100%;
 }
 
 /* ---------------------------------- */
+
+.homepageTitle{
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right:auto;
+  width: 8em;
+  font-size: 28px;
+}
 
 .pong{
   padding: 20px;

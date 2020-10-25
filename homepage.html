@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8"/>
+    <title>PONG</title>
+    <link rel='stylesheet' href='bootstrap.css'>
+    <link rel='stylesheet' href='style.css'>
+  </head>
+  <body>
+    <nav>
+      <div class='container'>
+        <ul class='menu-main'>
+          <li><a href='/pong/test/homepage.html'>PONG</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class='spacer'></div>
+    <div class='homepageTitle'>Lorem Ipsum</div>
+    <div class='pong'>
+      <h1>How to create an AI for Pong.</h1>
+        <canvas id="playfield" width="300" height="200" style="border:1px solid #000000;"></canvas>
+        <canvas id="playfield2" width="300" height="200" style="border:1px solid #000000;"></canvas>
+        <script src="playfield.js"></script>
+        <script>
+            var playfield = new Playfield(document.getElementById('playfield'), document.getElementById('playfield').getContext("2d"), 1, 1, true);
+            setInterval(mainLoop, 10, playfield, -1, 0);
+            var playfield2 = new Playfield(document.getElementById('playfield2'), document.getElementById('playfield2').getContext("2d"), 1, 1, false);
+            setInterval(mainLoop, 4, playfield2, 0, 2);
+            document.addEventListener("keydown", addKey);
+            document.addEventListener("keyup", removeKey);
+        </script>
+    </div>
+  </body>
+</html>
