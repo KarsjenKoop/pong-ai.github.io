@@ -1,21 +1,22 @@
 var instances = [];
 class Playfield {
-    constructor(c, ctx, simpleEpsilon, simpleEpsilonDecrease, complexEpsilon, complexEpsilonDecrease, hasHumanPlayer, uiSize){
+    constructor(c, ctx, leftEpsilon, leftEpsilonDecrease, rightEpsilon, rightEpsilonDecrease, hasHumanPlayer, uiSize){
         this.c = c;
         this.ctx = ctx;
         this.width = c.width/uiSize;
         this.height = c.height/uiSize;
         this.playerWidth = 5;
         this.timeStep = 0;
+        this.name = c.id;
         this.hasHumanPlayer = hasHumanPlayer;
         this.uiSize = uiSize;
-        this.lastComplexEnemyScore = 0;
-        this.lastSimpleEnemyScore = 0;
+        this.lastLeftEnemyScore = 0;
+        this.lastRightEnemyScore = 0;
         this.playerHeight = 40;
-        this.simpleEpsilon = simpleEpsilon;
-        this.complexEpsilon = complexEpsilon;
-        this.simpleEpsilonDecrease = simpleEpsilonDecrease;
-        this.complexEpsilonDecrease = complexEpsilonDecrease;
+        this.leftEpsilon = leftEpsilon;
+        this.rightEpsilon = rightEpsilon;
+        this.leftEpsilonDecrease = leftEpsilonDecrease;
+        this.rightEpsilonDecrease = rightEpsilonDecrease;
         this.simpleAIWeights = {
             "-1,0":3.2,
             "0,-1":130.8,
@@ -39,8 +40,8 @@ class Playfield {
             "2,14,0":222167.56926428596,"12,27,-1":222564.38297347954,"-12,14,0":222365.22336733626,"0,10,-1":221978.67756267844,"-14,10,1":208748.8271606438,"9,8,-1":217893.50090145902,"-4,28,0":222560.42959402833,"-18,2,-1":0.002,"-12,8,1":221447.6817152011,"3,7,-1":220347.80394616464,"-14,21,-1":129818.54698610886,"0,9,0":221387.48442147498,"-13,9,1":221990.20674368963,"-12,9,-1":221921.47459244556,"8,12,0":221482.96221652828,"-5,3,1":218648.18839530606,"-5,2,0":203942.89717453226,"-16,0,0":153080.0085792326,"0,28,1":222560.2983886262,"-11,28,0":208736.85879847792,"2,29,0":218699.58104639323,"8,15,0":222156.8330945714,"-15,29,0":32662.987151093213,"-14,20,1":210167.3560461036,"2,24,1":222560.36194018365,"-16,26,-1":-189.25818219456568,"1,10,1":221524.93644296052,"5,18,1":222528.6667635723,"15,2,-1":206157.28092161517,"-6,8,0":221412.08589186223,"-1,3,-1":218239.44558568593,"7,11,1":221285.66563074052,"12,22,0":222552.5834860629,"12,7,0":217473.48017794502,"15,25,1":222560.3936171845,"-1,29,0":217893.82322601293,"7,12,0":221456.61148076813,"-7,22,0":222560.57484636366,"-6,7,-1":221135.4007775553,"7,7,1":217656.73300078954,"-9,29,0":109025.62407976724,"6,5,0":210558.40446385098,"-1,4,1":218129.07340167527,"4,10,-1":220879.57250197354,"-9,0,1":219038.99375702857,"2,7,-1":219028.22514740747,"18,21,-1":222440.61376936047,"8,10,0":220351.5623384258,"18,23,1":222424.54381218847,"-7,22,1":222560.4014119393,"-18,21,-1":0.002,"-10,19,-1":222558.8803338303,"11,13,0":221656.0045455218,"1,13,0":222380.785327091,"-7,18,-1":222560.1397077405,"10,5,-1":214713.42761182136,"-18,17,1":-8333.031461325985,"-12,16,-1":222311.40740262374,"0,5,-1":220998.70052389227,"8,8,1":218148.02168603736,"-10,0,-1":218022.84885672163,"-9,26,-1":222536.42980004117,"-14,22,0":198788.59866428314,"-10,24,0":222560.40060360177,"-5,7,0":221542.89202322363,"-18,14,-1":0.000497865246986147,"6,28,1":222508.15978960795,"3,20,1":222558.90648727887,"13,23,0":222559.16973525676,"15,18,0":222505.97364466114,"-9,4,-1":219917.85252727976,"17,29,0":217477.08627385326,"-13,13,0":221537.0582721286,"11,3,-1":204943.03133216556,"4,20,-1":222558.17577148142,"-6,27,-1":222560.4019641817,"16,28,1":222540.39462884606,"9,10,1":219915.26608075274,"-7,0,1":202942.14099499807,"-9,23,1":222560.40123354917,"-6,25,0":222560.40210877013,"-10,21,0":222560.249941096,"-15,27,0":53230.47359753813,"7,5,1":210199.34898180212,"-3,15,-1":222443.92778215106,"8,28,1":222534.17526490657,"-12,5,-1":219784.0006436966,"9,16,1":222387.01730554423,"-11,5,-1":219817.21340255497,"2,10,-1":221150.02542900064,"-8,14,-1":222559.92187871956,"17,19,-1":222458.2284561124,"-18,29,0":0.001,"-7,9,1":222413.04110989283,"-3,0,1":214781.5622349859,"-9,28,0":208500.05683153993,"2,8,1":220072.63283639363,"12,11,-1":220802.23586483794,"16,21,1":222541.40593969022,"9,14,0":222041.9035670254,"-10,18,1":222560.25293191563,"-5,0,0":202441.12708170962,"-11,12,0":222488.24315116944,"6,7,1":217657.3078998687,"-13,2,-1":178996.87424826773,"-1,15,0":222430.21767739265,"-14,6,0":205274.06277963187,"14,23,1":222557.80634589167,"1,29,0":221952.79601701774,"-12,9,1":221974.6377773473,"13,0,0":201967.12500539262,"12,19,1":222525.01737702076,"-15,14,0":151147.87785076207,"0,11,0":222153.16341657148,"11,1,-1":208624.3641053578,"0,18,-1":222558.06944680391,"-14,8,-1":205471.37075147373,"-5,10,-1":222064.03325243446,"3,8,0":220433.09541888742,"-11,22,0":222560.35565218766,"19,4,0":-0.06686988815640577,"-14,19,1":218595.56394080698,"-6,12,-1":222255.62526829296,"12,11,0":220917.80232457462,"-4,9,-1":221927.26441856305,"-5,24,-1":222560.54319206366,"-13,27,1":131641.26033263814,"2,9,0":220483.7577573661,"15,6,-1":214921.1688593042,"3,20,0":222556.40336081458,"-16,8,0":-61212.03737734106,"10,8,-1":218986.2055883134,"-1,23,0":222560.54849879103,"-6,10,-1":222062.1879814819,"-6,18,-1":222560.26626674554,"2,18,-1":222545.3105957775,"-7,26,0":222560.40201855646,"-8,22,0":222560.4017520923,"-9,21,-1":222560.39084027027,"-10,23,1":222560.40151819153,"18,25,0":222454.75194141042,"-11,8,0":221747.708872339,"12,8,1":216855.02437417346,"-6,20,1":222560.31376415858,"12,28,1":222251.52571848594,"-9,9,-1":222162.01058648375,"7,2,-1":204059.78162078783,"-5,12,-1":222518.92590438097,"5,25,-1":222560.31899692275,"14,16,1":222350.47535335683,"0,10,0":221709.45296420448,"-1,1,-1":200663.7983542215,"-10,3,1":219481.75379583373,"9,22,0":222556.92109256997,"11,16,-1":222422.23398060235,"3,29,1":220123.40334917442,"-4,12,0":222513.06197192788,"3,14,1":222090.0127132915,"-3,27,0":222560.40224713605,"-15,10,0":119648.39612697608,"-9,3,-1":219195.4044795803,"-12,26,1":212927.30253762694,"-15,12,-1":208519.46491816622,"11,23,-1":222558.8166456358,"-3,9,1":221834.0085709785,"5,15,-1":222200.29852210768,"-7,4,1":218528.56551709646,"16,27,1":222502.0396590948,"-9,17,0":222559.6573891611,"1,21,1":222559.26417477342,"6,14,0":221934.325528463,"-12,11,0":222281.573652405,"-16,10,0":-27537.084858689865,"1,2,-1":217065.41829911867,"-4,18,0":222554.5771829896,"-4,12,-1":222332.406690825,"16,28,0":222480.51580764094,"13,26,-1":222566.15229533572,"5,13,-1":222096.53756628337,"0,11,-1":222388.87085916774,"10,19,0":222535.78563696574,"8,21,1":222558.26996995072,"-16,29,-1":0.002,"12,1,-1":207594.90716898176,"7,8,0":219196.23203506062,"-16,24,0":-27299.99999554605,"-17,26,-1":0.00020779633223226714,"-12,0,1":217567.83210170423,"10,15,-1":222138.5803328886,"-17,8,0":-68973.0284470508,"-11,20,1":222559.81146257618,"-18,20,-1":0.0020000000007916042,"1,3,-1":218339.57294566193,"-11,5,0":219960.7723686967,"-9,23,-1":222560.4568861851,"16,22,-1":222551.0726616238,"1,18,1":222556.9369655745,"19,3,0":201123.39662042493,"-15,5,0":193797.13982392746,"-13,12,1":221261.14251122187,"1,6,0":218010.890173588,"5,2,1":200569.25032364213,"4,11,0":220888.77610414612,"-13,26,1":141946.19901565657,"0,0,0":214806.32994702298,"-3,11,0":222146.79452874826,"0,14,1":222257.23680386847,"17,17,-1":222527.72120759735,"-6,21,-1":222560.39866742108,"2,23,0":222560.30495262315,"18,24,0":222515.7912063104,"17,1,1":200100.69641245733,"6,12,0":221433.09278096206,"19,28,1":0.0005916156940953249,"12,10,0":219857.10908176668,"-17,26,1":0.00011447783542159493,"19,2,-1":182961.766060072,"-1,0,1":208020.0490143704,"-15,7,0":181129.8951637355,"16,13,0":222326.92654340723,"-4,23,1":222560.3985425219,"-15,9,0":26138.346689239275,"-2,9,-1":221855.71978170623,"-4,1,1":211812.3766906332,"3,21,1":222560.3696024425,"17,9,1":212342.1086235636,"1,5,1":219031.98253227267,"-3,22,1":222560.353630731,"-2,23,0":222560.52862158095,"15,12,1":221677.57642032762,"6,24,-1":222560.21133671695,"11,28,1":222564.1066097999,"17,16,1":222398.38816230654,"16,11,0":221690.2586852249,"18,9,-1":213590.6586846041,"16,5,-1":214063.85679972533,"-5,28,0":222560.40213481063,"18,8,1":206861.53602700154,"1,1":-38189.1,"13,21,1":222554.17428951198,"-8,18,1":222560.07136805955,"-15,4,0":205874.81338332742,"12,8,0":217656.8491864398,"3,4,1":217554.6333352053,"6,17,0":222430.15572499047,"-6,24,1":222560.402144304,"-11,1,-1":215599.24931280263,"1,10,-1":221432.71253452453,"-2,9,0":221712.0755490375,"-17,28,0":0.0005529727060826063,"7,1,-1":199389.19983320739,"-4,20,-1":222560.46612106843,"-5,1,0":150991.40450351045,"-10,16,1":222560.23607647966,"-12,27,1":212558.84528472772,"-17,29,1":0.002,"9,3,-1":203287.52237074403,"3,1,1":199363.30875427125,"-5,14,-1":222560.0098656602,"-17,9,-1":-27299.99813193374,"-11,24,1":222560.34396843112,"-9,12,1":222459.1621922469,"2,27,1":222560.4012271769,"11,19,1":222528.01017087523,"4,0,1":200939.29314379644,"15,13,1":221962.4390088244,"0,25,0":222560.39869873345,"-16,17,-1":-5152.1044600819805,"-5,25,-1":222560.56607293262,"8,27,0":222560.4013051186,"-3,13,1":222312.83435248904,"6,15,-1":222311.34738766646,"12,13,-1":221412.72721638554,"-15,19,1":190764.31381336265,"11,25,-1":222562.932337034,"-15,14,1":219057.97368459537,"4,5,0":214689.52175406972,"2,18,1":222548.7819567332,"-9,19,1":222560.1829359371,"10,12,1":220722.4633757571,"10,21,0":222551.70743029623,"-3,4,-1":219859.67164093503,"-9,19,0":222560.3920135672,"-9,12,-1":222437.23493938876,"2,13,1":222010.61395069427,"-12,25,-1":169863.11074126925,"-12,24,0":222550.60861190862,"7,13,0":221625.4556212209,"6,12,-1":221348.76096493084,"-9,3,0":219436.98776590783,"0,8,-1":221965.88952121272,"-4,22,1":222560.35311336746,"-3,17,0":222553.42942334377,"10,3,-1":205021.98403395023,"4,12,1":221465.82512739307,"18,0,1":205676.2561661537,"10,18,-1":222510.95841706952,"-16,26,0":-49.65218586564566,"-8,22,-1":222560.40180907035,"-18,29,1":0.001,"-2,12,1":222462.85197366192,"18,3,0":206222.8496381223,"11,29,0":221098.22812219063,"-13,0,-1":182670.49548301552,"-10,28,0":222472.6332598043,"19,7,0":133540.4228857951,"9,18,-1":222528.27766098152,"-15,20,-1":22160.143749172217,"15,14,0":222330.09459938298,"-3,9,0":221898.8409231898,"-10,8,1":221182.51656719318,"19,4,1":142022.92754238952,"-12,2,0":216870.43410659637,"-4,9,1":221905.3528166182,"4,16,0":222445.01354971182,"10,23,0":222559.851447552,"-9,1,-1":218603.797212445,"18,4,-1":200498.53473535276,"13,22,0":222555.99097491874,"13,1,1":204193.07474448107,"-16,18,1":-4839.53133833535,"-1,17,1":222558.763419971,"-10,12,-1":222523.70413325384,"11,14,0":221794.88211820682,"4,26,-1":222560.40061447752,"-14,26,0":87890.06971032008,"1,13,-1":222072.86438928408,"-17,3,0":133757.93743511412,"-15,11,0":206327.5324748371,"17,26,-1":222557.920579005,"3,21,-1":222559.79959238504,"18,10,1":216079.89115314063,"-1,12,0":222176.2326536322,"-16,24,1":21819.699809582773,"1,25,1":222560.67310730115,"-14,8,1":218123.4014226358,"-3,21,-1":222560.22066139345,"14,29,-1":222382.40540915722,"-5,29,-1":119829.85658424436,"-11,29,0":0.0017546843888601967,"0,23,0":222560.58219861222,"-11,15,1":222554.32361537716,"-7,5,0":220554.89226698625,"10,15,1":222187.76911180647,"-2,10,0":222236.33082173686,"-5,19,0":222559.57970404715,"17,7,0":214994.4680266289,"-12,21,0":222557.513495145,"-15,8,0":207785.32738839355,"-18,28,1":0.0005545869514708998,
             "13,11,1":221181.13203235535,"19,23,-1":0.0004550003986340558,"15,25,0":222558.99407999968,"18,0,-1":199422.50230905783,"-3,21,0":222560.21000675595,"-1,6,1":219633.18800250394,"-14,21,0":195457.41106620777,"-5,28,-1":222560.40207336878,"-18,5,1":0.002,"-13,21,1":221679.61565972114,"-8,19,0":222560.20889123122,"19,22,-1":0.0014000000000144186,"18,22,-1":222467.32299974907,"14,7,0":217329.7329888531,"1,14,1":222255.0828182465,"-13,0,1":187257.57375784728,"5,19,0":222542.47101468468,"12,5,1":210539.99085908552,"17,21,0":222440.0846902604,"7,7,-1":219775.15364483843,"-11,2,0":217878.04413067558,"1,26,-1":222560.51185319995,"-15,0,1":178933.6599161972,"-6,6,0":220871.8498494094,"-10,4,-1":220576.34373502838,"-4,23,-1":222560.59133538534,"16,1,0":207183.17814139466,"-11,21,0":222559.57600134224,"-18,20,1":0.0015088130797189273,"-8,22,1":222560.5682528279,"10,24,0":222560.2692097854,"10,20,0":222546.76597043633,"-3,26,-1":222560.40218965473,"10,0,0":200121.63216359788,"3,2,-1":217771.02920283962,"9,7,-1":219275.4702551543,"-7,29,-1":155733.91146836506,"10,2,0":200798.85132641863,"16,19,-1":222547.9430930283,"11,20,1":222543.39978555523,"-12,7,1":221161.90451965466,"12,11,1":220716.06567153172,"10,11,-1":220304.59063543953,"-2,1,0":201040.57143350615,"-14,12,-1":217574.65906981673,"-14,16,-1":156936.7403178212,"-17,29,-1":0.002,"5,24,-1":222560.33316536984,"-10,17,0":222559.39054579934,"-13,28,0":137726.2922561329,"19,20,0":220283.96443131196,"19,13,-1":155626.50590596217,"11,13,-1":221745.79714301002,"9,7,0":217459.6654261835,"-5,17,1":222559.23346168874,"10,6,0":212880.4207502769,"-12,2,1":216977.4033873579,"0,13,0":222119.278942479,"15,5,-1":212909.19913063108,"13,17,-1":222447.84308396094,"17,3,0":200737.33633539453,"4,13,1":221773.42375285982,"-17,1,0":94304.65449560442,"-16,11,0":100814.20244966427,"-17,0,0":153632.40028611658,"6,27,-1":222560.15376397362,"12,26,0":222566.79356445096,"-11,26,1":222451.73501151966,"-9,3,1":218374.000133879,"4,17,1":222488.2321307697,"-8,12,-1":222380.2862405736,"-4,26,-1":222560.40223209074,"0,16,0":222481.1462840079,"7,16,0":222380.7241482769,"-15,26,0":83316.09051404014,"-11,11,0":222360.5487484276,"-17,11,-1":63565.83988485352,"12,16,0":222301.1351494053,"0,2,0":209545.47136204626,"6,5,-1":216482.17460565665,"-3,17,-1":222534.32840871447,"-10,25,0":222560.40015259094,"6,1,1":184538.29749862198,"6,9,-1":219198.80808538137,"-15,28,1":-1050.2891573386992,"-18,3,1":0.002002740800912216,"-1,22,0":222560.1185186195,"18,5,1":201255.5895947548,"12,21,-1":222548.99921054466,"5,22,0":222559.78423090867,"17,4,-1":200469.8081095133,"7,28,0":222529.37751800645,"-17,3,-1":0.0011804876340836955,"1,16,0":222535.8817689621,"5,22,-1":222560.1297652046,"4,11,-1":221114.2319465988,"12,7,1":215984.02367578004,"-3,8,-1":221398.46079285006,"-4,24,1":222560.40192419506,"5,25,0":222561.0214940294,"3,7,1":219028.41751016397,"15,24,0":222560.99063825334,"11,26,0":222564.5751890548,"-5,8,-1":221532.31302354072,"4,23,0":222560.27379107423,"-6,23,-1":222560.40201153804,"-2,17,1":222550.76904219855,"5,20,0":222555.73659349768,"13,29,0":199601.85102276134,"12,0,0":203066.7806963182,"-6,23,1":222560.40183246517,"-7,24,0":222560.56580283056,"-16,5,0":36691.52091953057,"19,0,1":196871.05177891435,"10,9,0":218061.60737933533,"-6,4,-1":220338.5837670529,"6,25,0":222560.46339435817,"11,29,1":220929.17187613453,"10,2,1":203814.32294405374,"-3,1,0":198826.83846063772,"-1,25,-1":222560.6060725601,"-18,1,1":106158.3281152675,"-3,14,-1":222379.19144910056,"-12,22,0":222559.23190614424,"16,17,-1":222465.1656337128,"9,5,1":208782.67888185033,"-9,28,1":222559.8037926068,"16,19,0":222542.02257879858,"-13,18,0":220587.18175865087,"-10,9,0":222021.43564431567,"13,25,-1":222560.3748259647,"18,11,0":174439.25377925255,"-3,6,1":220258.59711922327,"-16,21,0":43936.06064132017,"0,25,1":222560.61690433137,"8,4,1":212900.52159029373,"-2,6,0":220323.25138372515,"-17,20,1":-343.036690260363,"-1,16,0":222517.46092031666,"9,11,0":220605.69802562802,"12,1,0":199287.98285463094,"-15,24,-1":-32516.98811861284,"-5,23,0":222560.40200885403,"0,14,-1":222278.3236926261,"17,22,0":222462.4403385574,"-5,23,1":222560.57602021398,"11,1,1":207730.1617862524,"-16,8,1":-111465.42802559069,"-3,6,-1":220352.08560654617,"16,2,1":204671.89042692704,"-1,5,0":218765.22384440133,"4,15,-1":222441.63259728227,"-1,20,1":222560.0562380358,"-1,0":-38883.6,"-17,3,1":138875.00287675322,"11,4,0":208030.18560388574,"-8,27,-1":222558.35457636198,"-8,29,-1":0.0013707811226606496,"16,2,-1":203931.1414360293,"-10,21,1":222560.39712658362,"6,2,-1":200917.6908714282,"-14,2,0":201630.07323414023,"15,1,1":199442.48969410564,"-10,29,-1":141608.7688321193,"6,19,-1":222556.51371433234,"-7,12,-1":222368.5492009726,"10,9,1":218991.90548008794,"16,18,-1":222532.07295883764,"11,3,0":204757.76725324232,"19,10,-1":154403.38617089344,"1,1,0":211324.8663216731,"-8,27,0":222560.40140367448,"-16,5,1":151237.66710706177,"-10,27,0":222445.64346791722,"6,20,0":222555.05374776197,"12,19,0":222506.86929671114,"-1,4,0":218187.54246417593,"-1,8,-1":221388.86291335576,"-6,13,1":222556.47743709458,"-12,29,0":0.0018111136435366164,"-15,1,0":150394.79758539097,"-7,6,1":220800.28375601867,"12,23,0":222558.7556643946,"8,20,0":222543.35161389108,"0,29,0":221813.6206097957,"-12,27,0":218875.16119554153,"8,24,1":222560.33814129885,"0,17,0":222518.95695216928,"-18,25,-1":0.0000670178069138857,"-10,4,1":220497.92066198535,"-7,27,-1":222560.40185573694,"10,29,0":222396.6394171594,"0,20,1":222559.1370938412,"-10,11,-1":222364.46844395436,"-9,2,-1":218497.08812062212,"-4,13,1":222523.2183529339,"-5,4,0":219677.15318270962,"-10,13,1":222551.29112646088,"13,2,-1":201734.18829649815,"-6,17,-1":222560.33137519326,"-10,15,-1":222554.32006293524,"-1,14,0":222395.1532118843,"-8,16,-1":222560.17877488516,"-11,13,-1":222480.54079140106,"-8,1,0":151750.18245796685,"-17,16,-1":-4059.6212094101556,"11,8,0":217085.0833483343,"-4,27,1":222560.48342026828,"-9,6,0":220846.24873220222,"4,12,0":221549.39796622726,"-8,21,0":222560.51495444053,"-17,2,1":0.0020043720306900112,"0,29,-1":222390.48549613627,"-2,20,1":222559.19885202992,"10,7,1":215444.0451229964,"-10,7,-1":221122.4503569093,"0,22,1":222560.22708318103,"-7,19,0":222560.3555188554,"5,29,-1":216065.4707635123,"-9,27,1":222559.59688812855,"-7,26,-1":222560.40175209878,"5,9,0":219701.02746390557,"-13,23,-1":218134.88339077713,"5,9,-1":220017.89205952355,"-12,20,-1":221028.8163250754,"11,18,1":222462.16464903243,"17,11,0":222006.5775678224,"-7,8,-1":222237.83193247984,"-11,5,1":220747.43899745183,"19,3,-1":-2.0068778091897093,"17,15,1":221641.11415870042,"-12,11,1":222400.0052495868,"-18,15,1":-30722.999933602227,"-10,8,-1":221209.2464663939,"1,28,0":222560.4514131844,"8,0,1":201915.94594409474,"-16,13,-1":23664.831299059537,"-14,7,-1":216398.229816265,"12,17,1":222480.9622832401,"-5,26,0":222560.40219048352,"15,16,-1":222424.89778310756,"5,3,-1":216061.87305698526,"-4,29,-1":201436.2488260822,"11,8,1":216825.63572444418,"-9,24,0":222560.42068380988,"-7,1,1":207480.8189183925,"-18,11,0":0.0011810005143325138,"5,22,1":222560.39183434844,"-13,29,1":0.002,"-11,26,0":222261.7547236813,"-16,0,1":146179.9128515386,"13,28,1":222568.49186357588,"5,8,1":218564.76849466364,"-16,28,0":0.0005951725849763927,"-6,5,0":219391.73260596555,"5,0,0":199972.22439483012,"11,16,1":222277.17813721581,"3,25,1":222560.3959762756,"-6,24,0":222560.54229262954,"-6,16,-1":222560.30780603492,"-18,24,0":0.000009079906683037015,"3,11,0":221228.69590507855,"18,27,0":222533.8754103874
         };
-        this.lastStateActionC;
-        this.lastStateActionS;
+        this.lastStateActionLeft;
+        this.lastStateActionRight;
         this.player1 = {
             x: this.playerWidth,
             y: (this.height-this.playerHeight)/2,
@@ -122,7 +123,7 @@ function updateBall(instance){
   function writeName(instance, type, x, y){
     switch(type){
         case 0:
-            instance.ctx.fillText("Hard Code", x-4*instance.uiSize*9, y);
+            instance.ctx.fillText("Hard coded", x-4*instance.uiSize*10, y);
             break;
         case 1:
             instance.ctx.fillText("Simple AI", x-4*instance.uiSize*9, y);
@@ -159,7 +160,6 @@ function updateBall(instance){
      updateBall(instance);
      updatePlayer(instance.player1, instance);
      updatePlayer(instance.player2, instance);
-     console.log("Test2");
      updateAI(instance.ball.x+instance.ball.size/2, instance.ball.y+instance.ball.size/2, instance.player2.x+instance.playerWidth/2, instance.player2.y+instance.playerHeight/2, instance.player2.score, instance.player1.score, instance.timeStep, instance.player2, instance, type2);
      if(!instance.hasHumanPlayer){
         updateAI(instance.ball.x+instance.ball.size/2, instance.ball.y+instance.ball.size/2, instance.player1.x+instance.playerWidth/2, instance.player1.y+instance.playerHeight/2, instance.player1.score, instance.player2.score, instance.timeStep, instance.player1, instance, type1);
@@ -183,15 +183,16 @@ function updateBall(instance){
       if(qValueUp>qValueNothing && qValueUp>qValueNothing){
         lastStateAction = currentState+",1";
         player.moveUp = true;
-        return;
+        return lastStateAction;
       }
       if(qValueDown>qValueUp && qValueDown>qValueNothing){
         lastStateAction = currentState+",-1";
         player.moveDown = true;
-        return;
+        return lastStateAction;
       }
       lastStateAction = currentState+",0";
     }
+    return lastStateAction;
   }
 
   function chooseNextStaticAction(currentState, qValueUp, qValueNothing, qValueDown, player){
@@ -205,18 +206,18 @@ function updateBall(instance){
       }
   }
 
-function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance){
+ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance){
       var currentState = Math.round(ballY)-ownY<0?-1:Math.round(ballY)-ownY>0?1:0;
       chooseNextStaticAction(currentState, instance.simpleAIWeights[currentState+",1"], instance.simpleAIWeights[currentState+",0"], instance.simpleAIWeights[currentState+",-1"], player);
-  }
+ }
   
- function updateSimpleLearningAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance){
-    var currentState = "s";
-    currentState = Math.round(ballY)-ownY<0?-1:Math.round(ballY)-ownY>0?1:0;
+ function updateSimpleLearningAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance, lastStateAction){
+    var currentState = instance.player1 == player?instance.name+"s1":instance.name+"s2";
+    currentState += Math.round(ballY)-ownY<2-instance.playerHeight/2?-1:Math.round(ballY)-ownY>instance.playerHeight/2-2?1:0;
     var qValueUp = Number(localStorage.getItem(currentState+",1"));
     var qValueNothing = Number(localStorage.getItem(currentState+",0"));
     var qValueDown = Number(localStorage.getItem(currentState+",-1"));
-    if(qValueUp == undefined || qValueUp == null){
+    if((qValueUp ==0 && qValueDown == 0 && qValueNothing == 0) ||qValueUp == undefined || qValueUp == null){
       qValueUp = 0;
       qValueNothing = 0;
       qValueDown = 0;
@@ -225,19 +226,27 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       localStorage.setItem(currentState+",-1", Math.round(qValueDown*1000)/1000);
     }
     var reward;
-    if(instance.lastStateActionS != undefined){
-      var qValue = Number(localStorage.getItem(instance.lastStateActionS));
+    if(lastStateAction != undefined){
+      var qValue = Number(localStorage.getItem(lastStateAction));
       if(instance.player1 == player){
         reward = instance.ball.x <= 2*instance.playerWidth && instance.ball.x >= instance.playerWidth && instance.ball.y<=player.y+instance.playerHeight && instance.ball.y+instance.ball.size>=player.y?qValue+1:qValue;
-      }else{
+        reward = enemyScore>instance.lastLeftEnemyScore?-0.1+qValue:reward;
+        if(enemyScore>instance.lastLeftEnemyScore){
+            instance.lastLeftEnemyScore = enemyScore;
+        }
+    }else{
         reward = instance.ball.x >= instance.width-2*instance.playerWidth-instance.ball.size && instance.ball.x <= instance.width-instance.playerWidth-instance.ball.size && instance.ball.y<=player.y+instance.playerHeight && instance.ball.y+instance.ball.size>=player.y?qValue+1:qValue;
-      }
-      reward = enemyScore>instance.lastSimpleEnemyScore?-0.1+qValue:reward;
-      if(enemyScore>instance.lastSimpleEnemyScore){
-        instance.lastSimpleEnemyScore = enemyScore;
+        reward = enemyScore>instance.lastRightEnemyScore?-0.1+qValue:reward;
+        if(enemyScore>instance.lastRightEnemyScore){
+            instance.lastRightEnemyScore = enemyScore;
+        }
+    }
+      reward = enemyScore>instance.lastLeftEnemyScore?-0.1+qValue:reward;
+      if(enemyScore>instance.lastLeftEnemyScore){
+        instance.lastLeftEnemyScore = enemyScore;
       }
       qValue = qValue + 1*(reward + 0 * Math.max(qValueUp, qValueNothing, qValueDown) - qValue);
-      localStorage.setItem(instance.lastStateActionS, Math.round(qValue*1000.0)/1000.0);
+      localStorage.setItem(lastStateAction, Math.round(qValue*1000.0)/1000.0);
     }
     /*if(enemyScore>0){
       if(timeStep>bestTime){
@@ -246,16 +255,21 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       //resetGame();
       return;
     }*/
-    chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.simpleEpsilon, instance.lastStateActionS);
-    instance.simpleEpsilon = instance.simpleEpsilon/instance.simpleEpsilonDecrease;
+    if(instance.player1 == player){
+        instance.lastStateActionLeft = chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.leftEpsilon, instance.lastStateActionLeft);
+        instance.leftEpsilon = instance.leftEpsilon/instance.leftEpsilonDecrease;
+    }else{
+        instance.lastStateActionRight = chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.rightEpsilon, instance.lastStateActionRight);
+        instance.rightEpsilon = instance.rightEpsilon/instance.rightEpsilonDecrease;
+    }
   }
 
- function updateComplexAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance){
+ function updateComplexAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance, lastStateAction){
     var currentState = Math.round((Math.round(ballY)-ownY)/10) +","+Math.round(Math.abs(Math.round(ballX)-ownX)/10);
     var qValueUp = Number(localStorage.getItem(currentState+",1"));
     var qValueNothing = Number(localStorage.getItem(currentState+",0"));
     var qValueDown = Number(localStorage.getItem(currentState+",-1"));
-    if(qValueUp == 0 || qValueUp == undefined || qValueUp == null){
+    if((qValueUp == 0 && qValueDown == 0 && qValueNothing == 0) || qValueUp == undefined || qValueUp == null){
       qValueUp = instance.complexAIWeights[currentState+",1"];
       qValueNothing = instance.complexAIWeights[currentState+",0"];
       qValueDown = instance.complexAIWeights[currentState+",-1"];
@@ -264,26 +278,34 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
       localStorage.setItem(currentState+",-1", qValueDown);
     }
     var reward;
-    if(instance.lastStateActionC != undefined){
-      var qValue = Number(localStorage.getItem(instance.lastStateActionC));
+    if(lastStateAction != undefined){
+      var qValue = Number(localStorage.getItem(lastStateAction));
       if(instance.player1 == player){
         reward = instance.ball.x <= 2*instance.playerWidth && instance.ball.x >= instance.playerWidth && instance.ball.y<=player.y+instance.playerHeight && instance.ball.y+instance.ball.size>=player.y?10:0;
-      }else{
+        reward = enemyScore>instance.lastLeftEnemyScore?-100000:reward;
+        if(enemyScore>instance.lastLeftEnemyScore){
+            instance.lastLeftEnemyScore = enemyScore;
+        }
+    }else{
         reward = instance.ball.x >= instance.width-2*instance.playerWidth-instance.ball.size && instance.ball.x <= instance.width-instance.playerWidth-instance.ball.size && instance.ball.y<=player.y+instance.playerHeight && instance.ball.y+instance.ball.size>=player.y?10:0;
-      }
-      reward = enemyScore>instance.lastComplexEnemyScore?-100000:reward;
-      if(enemyScore>instance.lastComplexEnemyScore){
-        instance.lastComplexEnemyScore = enemyScore;
-      }
-      qValue = qValue + 0.7*(reward + 1 * Math.max(qValueUp, qValueNothing, qValueDown) - qValue);
-      localStorage.setItem(instance.lastStateActionC, qValue);
+        reward = enemyScore>instance.lastRightEnemyScore?-100000:reward;
+        if(enemyScore>instance.lastRightEnemyScore){
+            instance.lastRightEnemyScore = enemyScore;
+        }
     }
-    chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.complexEpsilon, instance.lastStateActionC);
-    instance.complexEpsilon = instance.complexEpsilon/instance.complexEpsilonDecrease;
+      qValue = qValue + 0.7*(reward + 1 * Math.max(qValueUp, qValueNothing, qValueDown) - qValue);
+      localStorage.setItem(lastStateAction, qValue);
+    }
+    if(instance.player1 == player){
+        instance.lastStateActionLeft = chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.leftEpsilon, instance.lastStateActionLeft);
+        instance.leftEpsilon = instance.leftEpsilon/instance.leftEpsilonDecrease;
+    }else{
+        instance.lastStateActionRight = chooseNextAction(currentState, qValueUp, qValueNothing, qValueDown, player, instance.rightEpsilon, instance.lastStateActionRight);
+        instance.rightEpsilon = instance.rightEpsilon/instance.rightEpsilonDecrease;
+    }
   }
 
  function updateBasicAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player){
-    console.log("Test");
     if(ballY-5<ownY){
       player.moveUp = true;
     }
@@ -303,10 +325,10 @@ function updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep
             this.updateSimpleAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance);
             break;
         case 2:
-            this.updateSimpleLearningAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance);
+            this.updateSimpleLearningAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance, player==instance.player1?instance.lastStateActionLeft : instance.lastStateActionRight);
             break;
         case 3:
-            this.updateComplexAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance);
+            this.updateComplexAI(ballX, ballY, ownX, ownY, ownScore, enemyScore, timeStep, player, instance, player==instance.player1?instance.lastStateActionLeft : instance.lastStateActionRight);
             break;
     }
   }
