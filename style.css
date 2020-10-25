@@ -165,7 +165,7 @@ input, select {
   width: 60%;
 }
 .footer{
-  height: 200px;
+  margin-top: 200px;
 }
 .text{
   font-size: 20px;
